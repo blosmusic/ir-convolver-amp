@@ -150,7 +150,7 @@ ampType.addEventListener("change", async () => {
     convolver.buffer = impulseResponse;
 
     //bypass convolver if no amp type is selected
-    if (ampType.value === "") {
+    if (ampType.value === "" || ampType.value === null) {
       globalVolume.connect(meter);
       setInterval(() => console.log(meter.getValue()), 100);
     } else {
