@@ -15,6 +15,12 @@ let inputGainValue = 0.3;
 let outputGainValue = 1;
 let globalVolumeValue = -12;
 
+// Create Tone buffer
+Tone.context.latencyHint = "fastest";
+Tone.context.lookAhead = 0;
+Tone.context.updateInterval = 0.01;
+Tone.context.bufferSize = 256;
+
 // Create Tone objects
 const mic = new Tone.UserMedia();
 const inputGain = new Tone.Gain(inputGainValue);
@@ -27,13 +33,6 @@ const destination = Tone.Destination;
 mic.connect(inputGain);
 inputGain.connect(outputGain);
 outputGain.connect(globalVolume);
-// globalVolume.connect(destination);
-// globalVolume.connect(convolver);
-// convolver.connect(destination);
-// destination.connect(meter);
-// mic.connect(meter);
-// mic.connect(Tone.Destination);
-// mic.chain(inputGain, outputGain, globalVolume, convolver, meter, Tone.Destination);
 
 // Create Audio Permission
 document.body.addEventListener("click", async () => {
@@ -157,8 +156,6 @@ ampType.addEventListener("change", async () => {
       convolver = new Tone.Convolver(impulseResponse);
       globalVolume.connect(convolver);
       convolver.connect(meter);
-
-      setInterval(() => console.log(meter.getValue()), 100);
     }
   });
 });
@@ -187,7 +184,7 @@ function monoAudio() {
   startAudio();
   const monoOutput = new Tone.Mono();
   meter.chain(monoOutput, destination);
-  setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
+  // setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
 }
 
 // STEREO AUDIO
@@ -197,7 +194,7 @@ function stereoAudio() {
   const monoLeft = new Tone.Mono({ channelCount: 1 });
   const monoRight = new Tone.Mono({ channelCount: -1 });
   meter.chain(monoLeft, monoRight, destination);
-  setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
+  // setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
 }
 
 // MUTE AUDIO
