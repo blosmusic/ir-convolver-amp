@@ -1,5 +1,6 @@
 const select = document.getElementById("audio-devices-input");
 const selectedOptions = document.getElementById("audio-source");
+const basePath = new URL("assets/ampIRs", window.location.href).href;
 const ampType = document.getElementById("amp-type");
 let ampSelection;
 
@@ -111,7 +112,7 @@ navigator.mediaDevices
 
 // Add IRs to the select element
 function getAmpIRs() {
-  fetch("assets/ampIRs")
+  fetch(basePath)
     .then((response) => response.text())
     .then((data) => {
       const parser = new DOMParser();
