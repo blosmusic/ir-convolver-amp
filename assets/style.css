@@ -37,6 +37,8 @@ label {
   align-items: center;
   justify-content: space-around;
   height: 30vh;
+  width: 100%;
+  margin: 5px 0;
 }
 
 .preamp-section {
@@ -45,6 +47,8 @@ display: flex;
   align-items: center;
   justify-content: space-around;
   height: 30vh;
+  width: 100%;
+  margin: 5px 0;
 }
 
 .custom-select {
@@ -146,4 +150,9 @@ display: flex;
     height: 10vh;
     width: 250px;
   }
+}
+
+.preamp-section {
+  flex-direction: column;
+  height: 60vh;
 }
