@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.40/Tone.js"></script>
+    <title>Guitar Cab IRs</title>
+  </head>
+  <body>
+    <h1>Audio Input to Guitar Cab IRs</h1>
+    <div class="audio-section">
+      <div class="custom-select">
+        <label for="audio-devices-input">Select Input:</label>
+        <select id="audio-devices-input"></select>
+      </div>
+
+      <div class="custom-select">
+        <label for="audio-source">Select Audio:</label>
+        <select id="audio-source">
+          <option value="none" selected>Select Type:</option>
+          <option value="mono">Mono</option>
+          <option value="stereo">Stereo</option>
+        </select>
+      </div>
+
+      <div class="custom-select">
+        <label for="amp-type">Select Amp:</label>
+        <select id="amp-type">
+            <option value="" selected>Select Amp:</option>
+        </select>
+        
+      </div>
+    </div>
+
+    <div id="info">
+      <h4>Click to Enable Audio</h4>
+      <p>
+        The inputs allow users to select the input source and Impulse Response
+        of a select number of guitar cab speakers.
+      </p>
+      <p>
+        Other FX, routing, and signal chains can be added to the audio signal to
+        create a more complex audio chain.
+      </p>
+      <p>
+        Impulse Responses are used to simulate the sound of a guitar cabinet and are from the
+        Allure IR Pack.
+      </p>
+      <p>
+        <u>NOTE:</u> Headphones is suggested if using a devices speaker as both
+        input and output to stop feedback.
+      </p>
+    </div>
+  </body>
+  <script src="./assets/app.js"></script>
+</html>
