@@ -8,14 +8,23 @@ audioContext.suspend();
 let mediaStream;
 let sourceNode;
 
+// Get the slider and knob elements
+let sliders = document.getElementsByClassName("amp-control");
+let inputGainValue = 0.3;
+let outputGainValue = 1;
+let globalVolumeValue = -12;
+
+
 // Create Tone objects
-const inputGain = new Tone.Gain(0.3);
-const outputGain = new Tone.Gain(0.5);
-const globalVolume = new Tone.Volume(-6);
+const inputGain = new Tone.Gain(inputGainValue);
+const outputGain = new Tone.Gain(outputGainValue);
+const globalVolume = new Tone.Volume(globalVolumeValue);
 const meter = new Tone.Meter();
 let convolver = new Tone.Convolver();
 
 const mic = new Tone.UserMedia();
+// mic.connect(inputGain);
+mic.chain(inputGain, outputGain, globalVolume, meter, convolver, Tone.Destination);
 
 // Handle device selection change
 select.addEventListener("change", async () => {
@@ -114,11 +123,11 @@ ampType.addEventListener("change", async () => {
     //bypass convolver if no amp type is selected
     if (ampType.value === "") {
       convolver.dispose();
-      mic.connect(meter);
+      // mic.connect(meter);
     } else {
       convolver = new Tone.Convolver(impulseResponse);
       mic.connect(convolver);
-      convolver.connect(meter);
+      // convolver.connect(meter);
     }
   });
 });
@@ -170,6 +179,7 @@ function monoAudio() {
     inputGain,
     outputGain,
     globalVolume,
+    convolver,
     meter,
     monoOutput
   );
@@ -182,9 +192,6 @@ function stereoAudio() {
   const monoLeft = new Tone.Mono({ channelCount: 1 });
   const monoRight = new Tone.Mono({ channelCount: -1 });
   Tone.Destination.chain(
-    inputGain,
-    outputGain,
-    globalVolumemeter,
     monoLeft,
     monoRight
   );
@@ -206,4 +213,28 @@ function resumeAudio() {
     // setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
   }
   console.log("Resume");
+}
+
+// Slider Functions
+for (let i = 0; i < sliders.length; i++) {
+  sliders[i].addEventListener("input", function () {
+    let sliderValue = parseFloat(this.value);
+    let sliderId = this.id;
+
+    console.log("Slider ID:", sliderId, "\t", "Slider Value:", sliderValue);
+
+    // update the value in tone.js
+    if (sliderId === "amp-gain-input") {
+      inputGainValue = sliderValue;
+      inputGain.gain.value = inputGainValue;
+    } else if (sliderId === "amp-gain-output") {
+      outputGainValue = sliderValue;
+      outputGain.gain.value = outputGainValue;
+    } else if (sliderId === "amp-global-volume") {
+      globalVolumeValue = sliderValue;
+      globalVolume.volume.value = globalVolumeValue;
+    } else {
+      console.log("Error: slider ID not found");
+    }
+  });
 }
