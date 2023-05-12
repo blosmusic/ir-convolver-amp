@@ -11,9 +11,9 @@ let sourceNode;
 
 // Get the slider and knob elements
 let sliders = document.getElementsByClassName("amp-control");
-let inputGainValue = 0.3;
+let inputGainValue = 0.5;
 let outputGainValue = 1;
-let globalVolumeValue = -12;
+let globalVolumeValue = -1;
 
 // Create Tone buffer
 Tone.context.latencyHint = "fastest";
