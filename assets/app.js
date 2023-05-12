@@ -111,7 +111,7 @@ navigator.mediaDevices
 
 // Add IRs to the select element
 function getAmpIRs() {
-  fetch("assets/ampIR/")
+  fetch("assets/ampIRs/")
     .then((response) => response.text())
     .then((data) => {
       const parser = new DOMParser();
