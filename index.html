@@ -28,9 +28,55 @@
       <div class="custom-select">
         <label for="amp-type">Select Amp:</label>
         <select id="amp-type">
-            <option value="" selected>Select Amp:</option>
+          <option value="" selected>Select Amp:</option>
         </select>
-        
+      </div>
+    </div>
+
+    <div class="preamp-section">
+      <div class="dial-section">
+        <div class="amp-slider">
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.3"
+            id="amp-gain-input"
+            class="amp-control"
+          />
+        </div>
+        <label for="amp-gain" class="amp-control-label">Input Gain</label>
+      </div>
+
+      <div class="dial-section">
+        <div class="amp-slider">
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.5"
+            id="amp-gain-output"
+            class="amp-control"
+          />
+        </div>
+        <label for="amp-gain" class="amp-control-label">Output Gain</label>
+      </div>
+
+      <div class="dial-section">
+        <div class="amp-slider">
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.2"
+            id="amp-global-volume"
+            class="amp-control"
+          />
+        </div>
+        <label for="amp-gain" class="amp-control-label">Volume</label>
       </div>
     </div>
 
@@ -45,8 +91,8 @@
         create a more complex audio chain.
       </p>
       <p>
-        Impulse Responses are used to simulate the sound of a guitar cabinet and are from the
-        Allure IR Pack.
+        Impulse Responses are used to simulate the sound of a guitar cabinet and
+        are from the Allure IR Pack.
       </p>
       <p>
         <u>NOTE:</u> Headphones is suggested if using a devices speaker as both

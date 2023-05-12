@@ -1,42 +1,50 @@
 body {
-    background-color: #f2f2f2;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    color: #262626;
-    text-align: center;
-    height: 100vh;
+  background-color: #f2f2f2;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  color: #262626;
+  text-align: center;
+  height: 100vh;
 }
 
 h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 h4 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
 p {
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
 }
 
 label {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-right: 3px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-right: 3px;
 }
 
-.audio-section {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    height: 30vh;
+.audio-section{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 30vh;
+}
+
+.preamp-section {
+display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 30vh;
 }
 
 .custom-select {
@@ -83,18 +91,59 @@ label {
   top: 7px;
 }
 
+.dial-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 20vh;
+  width: 20vh;
+  /* border: 2px solid #00ff91; */
+}
+
+.amp-slider {
+  width: 100px;
+  height: 100px;
+  background-color: #333;
+  border: 2px solid #00ff91;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.amp-control {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.amp-control-label {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
 @media only screen and (max-width: 1200px) {
-    label {
-        font-size: 1rem;
-    }
+  label {
+    font-size: 1rem;
+  }
 
-    .audio-section {
-        flex-direction: column;
-        height: 50vh;
-    }
+  .audio-section {
+    flex-direction: column;
+    height: 50vh;
+  }
 
-    .custom-select select {
-        height: 10vh;
-        width: 250px;
-    }
+  .custom-select select {
+    height: 10vh;
+    width: 250px;
+  }
 }
