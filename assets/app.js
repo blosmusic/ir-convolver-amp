@@ -1,6 +1,7 @@
 const select = document.getElementById("audio-devices-input");
 const selectedOptions = document.getElementById("audio-source");
 const ampType = document.getElementById("amp-type");
+let ampSelection;
 
 // Create Audio Context
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -14,17 +15,45 @@ let inputGainValue = 0.3;
 let outputGainValue = 1;
 let globalVolumeValue = -12;
 
-
 // Create Tone objects
+const mic = new Tone.UserMedia();
 const inputGain = new Tone.Gain(inputGainValue);
 const outputGain = new Tone.Gain(outputGainValue);
 const globalVolume = new Tone.Volume(globalVolumeValue);
-const meter = new Tone.Meter();
 let convolver = new Tone.Convolver();
+const meter = new Tone.Meter();
+const destination = Tone.Destination;
 
-const mic = new Tone.UserMedia();
-// mic.connect(inputGain);
-mic.chain(inputGain, outputGain, globalVolume, meter, convolver, Tone.Destination);
+mic.connect(inputGain);
+inputGain.connect(outputGain);
+outputGain.connect(globalVolume);
+// globalVolume.connect(destination);
+// globalVolume.connect(convolver);
+// convolver.connect(destination);
+// destination.connect(meter);
+// mic.connect(meter);
+// mic.connect(Tone.Destination);
+// mic.chain(inputGain, outputGain, globalVolume, convolver, meter, Tone.Destination);
+
+// Create Audio Permission
+document.body.addEventListener("click", async () => {
+  await Tone.start();
+  document.querySelector("h4").innerText = "Permission Granted";
+  console.log("audio is ready");
+});
+
+function startAudio() {
+  mic
+    .open()
+    .then(() => {
+      console.log("Mic is open");
+      resumeAudio();
+    })
+    .catch((e) => {
+      console.log("Mic is not open");
+      console.log(e);
+    });
+}
 
 // Handle device selection change
 select.addEventListener("change", async () => {
@@ -109,11 +138,11 @@ getAmpIRs();
 
 // Handle amp type change
 ampType.addEventListener("change", async () => {
-  convolver.disconnect();
+  convolver.dispose();
 
   // Get the selected amp type
   const selectedAmpType = ampType.value;
-  console.log(selectedAmpType);
+  console.log("Amp IR:", selectedAmpType);
 
   // Load the impulse response from the selected file
   const impulseResponse = new Tone.Buffer(selectedAmpType, () => {
@@ -122,35 +151,17 @@ ampType.addEventListener("change", async () => {
 
     //bypass convolver if no amp type is selected
     if (ampType.value === "") {
-      convolver.dispose();
-      // mic.connect(meter);
+      globalVolume.connect(meter);
+      setInterval(() => console.log(meter.getValue()), 100);
     } else {
       convolver = new Tone.Convolver(impulseResponse);
-      mic.connect(convolver);
-      // convolver.connect(meter);
+      globalVolume.connect(convolver);
+      convolver.connect(meter);
+
+      setInterval(() => console.log(meter.getValue()), 100);
     }
   });
 });
-
-// Create Audio Permission
-document.body.addEventListener("click", async () => {
-  await Tone.start();
-  document.querySelector("h4").innerText = "Permission Granted";
-  console.log("audio is ready");
-});
-
-function startAudio() {
-  mic
-    .open()
-    .then(() => {
-      console.log("Mic is open");
-      resumeAudio();
-    })
-    .catch((e) => {
-      console.log("Mic is not open");
-      console.log(e);
-    });
-}
 
 // Select audio type
 selectedOptions.addEventListener("change", (event) => {
@@ -175,14 +186,8 @@ function monoAudio() {
   console.log("Mono");
   startAudio();
   const monoOutput = new Tone.Mono();
-  Tone.Destination.chain(
-    inputGain,
-    outputGain,
-    globalVolume,
-    convolver,
-    meter,
-    monoOutput
-  );
+  meter.chain(monoOutput, destination);
+  setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
 }
 
 // STEREO AUDIO
@@ -191,10 +196,8 @@ function stereoAudio() {
   startAudio();
   const monoLeft = new Tone.Mono({ channelCount: 1 });
   const monoRight = new Tone.Mono({ channelCount: -1 });
-  Tone.Destination.chain(
-    monoLeft,
-    monoRight
-  );
+  meter.chain(monoLeft, monoRight, destination);
+  setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
 }
 
 // MUTE AUDIO
@@ -210,7 +213,6 @@ function resumeAudio() {
   if (audioContext.state === "suspended") {
     audioContext.resume();
     Tone.Transport.start();
-    // setInterval(() => console.log(meter.getValue()), 100); // for testing purposes
   }
   console.log("Resume");
 }
