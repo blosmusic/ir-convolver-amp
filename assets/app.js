@@ -1,16 +1,9 @@
 const select = document.getElementById("audio-devices-input");
 const selectedOptions = document.getElementById("audio-source");
+const basePath = new URL("./assets/ampIRs", window.location.href).href;
+const ampIRsPath = basePath;
 const ampType = document.getElementById("amp-type");
 let ampSelection;
-
-function getAbsoluteFilePath(relativePath) {
-  const currentPath = window.location.pathname;
-  const basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
-  return `${window.location.origin}${basePath}/${relativePath}`;
-}
-
-const filePath = "assets/ampIRs/";
-const absolutePath = getAbsoluteFilePath(filePath);
 
 // Create Audio Context
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -120,7 +113,7 @@ navigator.mediaDevices
 
 // Add IRs to the select element
 function getAmpIRs() {
-  fetch(absolutePath)
+  fetch(ampIRsPath)
     .then((response) => response.text())
     .then((data) => {
       const parser = new DOMParser();
@@ -158,7 +151,7 @@ ampType.addEventListener("change", async () => {
     convolver.buffer = impulseResponse;
 
     //bypass convolver if no amp type is selected
-    if (ampType.value === "" || ampType.value === null) {
+    if (ampType.value === "") {
       globalVolume.connect(meter);
       setInterval(() => console.log(meter.getValue()), 100);
     } else {
