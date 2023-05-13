@@ -1,6 +1,9 @@
 const select = document.getElementById("audio-devices-input");
 const selectedOptions = document.getElementById("audio-source");
-const basePath = new URL("./assets/ampIRs/", window.location.href).href;
+const basePath = new URL(
+  "assets/ampIRs",
+  window.location.origin + window.location.pathname
+).href;
 const ampType = document.getElementById("amp-type");
 let ampSelection;
 
