@@ -46,7 +46,6 @@ label {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  height: 30vh;
   width: 100%;
   margin: 5px 0;
 }
@@ -153,6 +152,5 @@ label {
 }
 
 .preamp-section {
-  /* flex-direction: column; */
-  height: 60vh;
+  flex-direction: column;
 }
