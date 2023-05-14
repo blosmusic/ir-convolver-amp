@@ -45,7 +45,7 @@ eq.connect(outputGain);
 outputGain.connect(globalVolume);
 
 // Create Audio Permission
-document.body.addEventListener("click", async () => {
+document.addEventListener("click", async () => {
   await Tone.start();
   document.querySelector("h4").innerText = "Permission Granted";
   console.log("audio is ready");
