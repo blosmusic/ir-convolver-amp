@@ -1,7 +1,10 @@
 const select = document.getElementById("audio-devices-input");
 const selectedOptions = document.getElementById("audio-source");
-// const basePath = new URL("./assets/ampIRs", window.location.href).href;
-const ampIRsPath = "./assets/ampIRs/";
+const basePath =
+  "https://api.github.com/repos/blosmusic/ir-convolver-amp/contents/assets/ampIRs";
+const headers = {
+  Accept: "application/vnd.github.v3+json",
+};
 const ampType = document.getElementById("amp-type");
 let ampSelection;
 
@@ -113,27 +116,23 @@ navigator.mediaDevices
 
 // Add IRs to the select element
 // function getAmpIRs() {
-  fetch(ampIRsPath)
-    .then((response) => response.text())
-    .then((data) => {
-      const parser = new DOMParser();
-      const htmlDoc = parser.parseFromString(data, "text/html");
-      const ampIRs = htmlDoc.querySelectorAll("a");
+fetch(basePath, { headers })
+  .then((response) => response.json())
+  .then((data) => {
+    // Filter out the WAV files from the API response
+    const wavFiles = data.filter((item) => item.name.endsWith(".wav"));
 
-      // Iterate through the links and add WAV files to the select menu
-      for (let i = 0; i < ampIRs.length; i++) {
-        const link = ampIRs[i].getAttribute("href");
-        if (link.endsWith(".wav")) {
-          const option = document.createElement("option");
-          option.value = link;
-          option.textContent = link.substring(15, link.length - 4);
-          ampType.appendChild(option);
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Error getting amp IRs:", error);
+    // Iterate through the filtered WAV files and add them to the select menu
+    wavFiles.forEach((file) => {
+      const option = document.createElement("option");
+      option.value = file.download_url;
+      option.textContent = file.name.substring(0, file.name.length - 4);
+      ampType.appendChild(option);
     });
+  })
+  .catch((error) => {
+    console.error("Error getting amp IRs:", error);
+  });
 // }
 // getAmpIRs();
 
