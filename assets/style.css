@@ -46,8 +46,8 @@ label {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  width: 100%;
   margin: 5px 0;
+  padding: 10px 10px;
 }
 
 .custom-select {
@@ -95,12 +95,9 @@ label {
 }
 
 .dial-section {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 20vh;
-  width: 20vh;
   /* border: 2px solid #00ff91; */
 }
 
@@ -149,8 +146,9 @@ label {
     height: 10vh;
     width: 250px;
   }
-}
-
-.preamp-section {
-  flex-direction: column;
+  
+  .preamp-section {
+    flex-direction: column;
+  }
+  
 }
