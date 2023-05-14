@@ -115,7 +115,7 @@ navigator.mediaDevices
   });
 
 // Add IRs to the select element
-// function getAmpIRs() {
+function getAmpIRs() {
 fetch(basePath, { headers })
   .then((response) => response.json())
   .then((data) => {
@@ -133,8 +133,8 @@ fetch(basePath, { headers })
   .catch((error) => {
     console.error("Error getting amp IRs:", error);
   });
-// }
-// getAmpIRs();
+}
+getAmpIRs();
 
 // Handle amp type change
 ampType.addEventListener("change", async () => {
