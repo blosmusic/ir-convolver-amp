@@ -19,6 +19,9 @@ let sliders = document.getElementsByClassName("amp-control");
 let inputGainValue = 0.5;
 let outputGainValue = 1;
 let globalVolumeValue = -1;
+let eqBass = -10;
+let eqMid = 0;
+let eqTreble = -10;
 
 // Create Tone buffer
 Tone.context.latencyHint = "fastest";
@@ -29,6 +32,7 @@ Tone.context.bufferSize = 256;
 // Create Tone objects
 const mic = new Tone.UserMedia();
 const inputGain = new Tone.Gain(inputGainValue);
+const eq = new Tone.EQ3(eqBass, eqMid, eqTreble);
 const outputGain = new Tone.Gain(outputGainValue);
 const globalVolume = new Tone.Volume(globalVolumeValue);
 let convolver = new Tone.Convolver();
@@ -36,7 +40,8 @@ const meter = new Tone.Meter();
 const destination = Tone.Destination;
 
 mic.connect(inputGain);
-inputGain.connect(outputGain);
+inputGain.connect(eq);
+eq.connect(outputGain);
 outputGain.connect(globalVolume);
 
 // Create Audio Permission
@@ -116,23 +121,23 @@ navigator.mediaDevices
 
 // Add IRs to the select element
 function getAmpIRs() {
-fetch(basePath, { headers })
-  .then((response) => response.json())
-  .then((data) => {
-    // Filter out the WAV files from the API response
-    const wavFiles = data.filter((item) => item.name.endsWith(".wav"));
+  fetch(basePath, { headers })
+    .then((response) => response.json())
+    .then((data) => {
+      // Filter out the WAV files from the API response
+      const wavFiles = data.filter((item) => item.name.endsWith(".wav"));
 
-    // Iterate through the filtered WAV files and add them to the select menu
-    wavFiles.forEach((file) => {
-      const option = document.createElement("option");
-      option.value = file.download_url;
-      option.textContent = file.name.substring(0, file.name.length - 4);
-      ampType.appendChild(option);
+      // Iterate through the filtered WAV files and add them to the select menu
+      wavFiles.forEach((file) => {
+        const option = document.createElement("option");
+        option.value = file.download_url;
+        option.textContent = file.name.substring(0, file.name.length - 4);
+        ampType.appendChild(option);
+      });
+    })
+    .catch((error) => {
+      console.error("Error getting amp IRs:", error);
     });
-  })
-  .catch((error) => {
-    console.error("Error getting amp IRs:", error);
-  });
 }
 getAmpIRs();
 
@@ -233,6 +238,15 @@ for (let i = 0; i < sliders.length; i++) {
     } else if (sliderId === "amp-global-volume") {
       globalVolumeValue = sliderValue;
       globalVolume.volume.value = globalVolumeValue;
+    } else if (sliderId === "eq-bass") {
+      eqBassValue = sliderValue;
+      eq.low.value = eqBassValue;
+    } else if (sliderId === "eq-mid") {
+      eqMidValue = sliderValue;
+      eq.mid.value = eqMidValue;
+    } else if (sliderId === "eq-treble") {
+      eqTrebleValue = sliderValue;
+      eq.high.value = eqTrebleValue;
     } else {
       console.log("Error: slider ID not found");
     }
