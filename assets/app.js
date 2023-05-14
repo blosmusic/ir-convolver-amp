@@ -1,7 +1,7 @@
 const select = document.getElementById("audio-devices-input");
 const selectedOptions = document.getElementById("audio-source");
-const basePath = new URL("./assets/ampIRs", window.location.href).href;
-const ampIRsPath = basePath;
+// const basePath = new URL("./assets/ampIRs", window.location.href).href;
+const ampIRsPath = "./assets/ampIRs/";
 const ampType = document.getElementById("amp-type");
 let ampSelection;
 
@@ -112,7 +112,7 @@ navigator.mediaDevices
   });
 
 // Add IRs to the select element
-function getAmpIRs() {
+// function getAmpIRs() {
   fetch(ampIRsPath)
     .then((response) => response.text())
     .then((data) => {
@@ -134,8 +134,8 @@ function getAmpIRs() {
     .catch((error) => {
       console.error("Error getting amp IRs:", error);
     });
-}
-getAmpIRs();
+// }
+// getAmpIRs();
 
 // Handle amp type change
 ampType.addEventListener("change", async () => {
