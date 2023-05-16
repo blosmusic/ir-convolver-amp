@@ -24,7 +24,7 @@ let eqMid = 0;
 let eqTreble = -10;
 
 // Create Tone buffer
-Tone.context.latencyHint = "fastest";
+// Tone.context.latencyHint = "fastest";
 Tone.context.lookAhead = 0;
 Tone.context.updateInterval = 0.01;
 Tone.context.bufferSize = 256;
